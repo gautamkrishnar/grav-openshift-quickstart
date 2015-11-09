@@ -3,10 +3,15 @@ Grav is a Fast, Simple, and Flexible, file-based Web-platform. It follows simila
 
 More information can be found at: http://www.getgrav.org/
 
-Running on OpenShift
---------------------
+### Install with one click
+----------------------
 
 Create an account at http://openshift.redhat.com/
+
+[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=php-5.4&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
+
+### Installing via command line
+--------------------
 
 Create a PHP application :
 
