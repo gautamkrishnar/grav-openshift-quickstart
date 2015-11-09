@@ -1,17 +1,18 @@
 # Grav on openshift
+
 Grav is a Fast, Simple, and Flexible, file-based Web-platform. It follows similar principles to other flat-file CMS platforms, but has a different design philosophy than most. Grav comes with a powerful Package Management System to allow for simple installation and upgrading of plugins and themes, as well as simple updating of Grav itself.
 
 More information can be found at: http://www.getgrav.org/
 
 ### Install with one click
-----------------------
+
 
 Create an account at http://openshift.redhat.com/
 
 [![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=php-5.4&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
 
-### Installing via command line
---------------------
+### Installing via the command line
+
 
 Create a PHP application :
 
