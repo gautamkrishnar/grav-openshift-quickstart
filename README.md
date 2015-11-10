@@ -11,13 +11,15 @@ Create an account at http://openshift.redhat.com/
 
 [![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=php-5.4&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
 
+### How to use
 After installing you can login to admin console(still in beta) by pointing your browser to: http://grav-$yourdomain.rhcloud.com/admin
 
      username:admin
      password:password
 
+Don't forget to change your password after logging in  for the first time.
 
-
+If you are experiencing any problems, please don't forget to open a [new issue](https://github.com/gautamkrishnar/grav-openshift-quickstart/issues/new) in this repository.
 ### Installing via the command line
 
 
@@ -47,4 +49,3 @@ To give your new Grav site a web address of its own, add your desired alias:
 	rhc app add-alias -a grav --alias "$whatever.$mydomain.com"
 
 Then add a cname entry in your domain's dns configuration pointing your alias to $whatever-$yourdomain.rhcloud.com.
-
