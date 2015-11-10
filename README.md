@@ -12,7 +12,7 @@ Create an account at http://openshift.redhat.com/
 [![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=php-5.4&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
 
 ### How to use
-After installing you can login to admin console(still in beta) by pointing your browser to: http://grav-$yourdomain.rhcloud.com/admin
+After installing you can login to admin console(still in beta) by pointing your browser to: http://grav-yourdomain.rhcloud.com/admin
 
      username:admin
      password:password
