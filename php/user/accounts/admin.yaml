@@ -1,6 +1,6 @@
 password: 'password'
 email: 'youremail@mail.com'
-fullname: 'Johnny Appleseed'
+fullname: 'Administrator'
 title: 'Site Administrator'
 access:
   admin:
