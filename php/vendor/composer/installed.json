@@ -1,17 +1,17 @@
 [
     {
         "name": "doctrine/cache",
-        "version": "v1.4.2",
-        "version_normalized": "1.4.2.0",
+        "version": "v1.5.2",
+        "version_normalized": "1.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/cache.git",
-            "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca"
+            "reference": "47c7128262da274f590ae6f86eb137a7a64e82af"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/cache/zipball/8c434000f420ade76a07c64cbe08ca47e5c101ca",
-            "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca",
+            "url": "https://api.github.com/repos/doctrine/cache/zipball/47c7128262da274f590ae6f86eb137a7a64e82af",
+            "reference": "47c7128262da274f590ae6f86eb137a7a64e82af",
             "shasum": ""
         },
         "require": {
@@ -25,17 +25,17 @@
             "predis/predis": "~1.0",
             "satooshi/php-coveralls": "~0.6"
         },
-        "time": "2015-08-31 12:36:41",
+        "time": "2015-12-03 10:50:37",
         "type": "library",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.5.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "Doctrine\\Common\\Cache\\": "lib/"
+            "psr-4": {
+                "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -96,7 +96,7 @@
         },
         "time": "2015-09-22 21:04:13",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "files": [
                 "Source/UserAgentParser.php"
@@ -141,7 +141,7 @@
         },
         "time": "2015-10-04 16:44:32",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Parsedown": ""
@@ -167,25 +167,25 @@
     },
     {
         "name": "erusev/parsedown-extra",
-        "version": "0.7.0",
-        "version_normalized": "0.7.0.0",
+        "version": "0.7.1",
+        "version_normalized": "0.7.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/erusev/parsedown-extra.git",
-            "reference": "11a44e076d02ffcc4021713398a60cd73f78b6f5"
+            "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/11a44e076d02ffcc4021713398a60cd73f78b6f5",
-            "reference": "11a44e076d02ffcc4021713398a60cd73f78b6f5",
+            "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/0db5cce7354e4b76f155d092ab5eb3981c21258c",
+            "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c",
             "shasum": ""
         },
         "require": {
             "erusev/parsedown": "~1.4"
         },
-        "time": "2015-01-25 14:52:34",
+        "time": "2015-11-01 10:19:22",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "ParsedownExtra": ""
@@ -213,17 +213,17 @@
     },
     {
         "name": "filp/whoops",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "1.1.10",
+        "version_normalized": "1.1.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/filp/whoops.git",
-            "reference": "9a393ceb80f7497b6513feb574638e87048fed55"
+            "reference": "72538eeb70bbfb11964412a3d098d109efd012f7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/9a393ceb80f7497b6513feb574638e87048fed55",
-            "reference": "9a393ceb80f7497b6513feb574638e87048fed55",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/72538eeb70bbfb11964412a3d098d109efd012f7",
+            "reference": "72538eeb70bbfb11964412a3d098d109efd012f7",
             "shasum": ""
         },
         "require": {
@@ -232,14 +232,14 @@
         "require-dev": {
             "mockery/mockery": "0.9.*"
         },
-        "time": "2015-09-27 09:47:06",
+        "time": "2015-06-29 05:42:04",
         "type": "library",
         "extra": {
             "branch-alias": {
                 "dev-master": "1.2-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Whoops": "src/"
@@ -292,7 +292,7 @@
         },
         "time": "2014-09-24 11:23:30",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Gregwar\\Cache": ""
@@ -342,7 +342,7 @@
         },
         "time": "2015-05-30 19:24:37",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Gregwar\\Image": ""
@@ -367,44 +367,106 @@
         ]
     },
     {
-        "name": "symfony/var-dumper",
-        "version": "v2.7.5",
-        "version_normalized": "2.7.5.0",
+        "name": "symfony/polyfill-mbstring",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "ba8c9a0edf18f70a7efcb8d3eb35323a10263338"
+            "url": "https://github.com/symfony/polyfill-mbstring.git",
+            "reference": "0b6a8940385311a24e060ec1fe35680e17c74497"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ba8c9a0edf18f70a7efcb8d3eb35323a10263338",
-            "reference": "ba8c9a0edf18f70a7efcb8d3eb35323a10263338",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/0b6a8940385311a24e060ec1fe35680e17c74497",
+            "reference": "0b6a8940385311a24e060ec1fe35680e17c74497",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.9"
+            "php": ">=5.3.3"
+        },
+        "time": "2015-11-04 20:28:58",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Mbstring\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for the Mbstring extension",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "mbstring",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "symfony/var-dumper",
+        "version": "v2.8.0",
+        "version_normalized": "2.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/var-dumper.git",
+            "reference": "e6f3855005f2bfad7d7e72431d374a6478893fe3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e6f3855005f2bfad7d7e72431d374a6478893fe3",
+            "reference": "e6f3855005f2bfad7d7e72431d374a6478893fe3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9",
+            "symfony/polyfill-mbstring": "~1.0"
         },
         "require-dev": {
-            "symfony/phpunit-bridge": "~2.7"
+            "twig/twig": "~1.20|~2.0"
         },
         "suggest": {
             "ext-symfony_debug": ""
         },
-        "time": "2015-09-22 14:41:01",
+        "time": "2015-11-18 13:45:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.7-dev"
+                "dev-master": "2.8-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "files": [
                 "Resources/functions/dump.php"
             ],
             "psr-4": {
                 "Symfony\\Component\\VarDumper\\": ""
-            }
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -444,7 +506,7 @@
         },
         "time": "2012-12-21 11:40:51",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Psr\\Log\\": ""
@@ -469,43 +531,43 @@
     },
     {
         "name": "maximebf/debugbar",
-        "version": "v1.10.5",
-        "version_normalized": "1.10.5.0",
+        "version": "v1.11.0",
+        "version_normalized": "1.11.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/maximebf/php-debugbar.git",
-            "reference": "30e53e8a28284b69dd223c9f5ee8957befd72636"
+            "reference": "07741d84d39d10f00551c94284cdefcc69703e77"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/30e53e8a28284b69dd223c9f5ee8957befd72636",
-            "reference": "30e53e8a28284b69dd223c9f5ee8957befd72636",
+            "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/07741d84d39d10f00551c94284cdefcc69703e77",
+            "reference": "07741d84d39d10f00551c94284cdefcc69703e77",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0",
-            "psr/log": "~1.0",
-            "symfony/var-dumper": "~2.6"
+            "psr/log": "^1.0",
+            "symfony/var-dumper": "^2.6|^3.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.0"
+            "phpunit/phpunit": "^4.0|^5.0"
         },
         "suggest": {
             "kriswallsmith/assetic": "The best way to manage assets",
             "monolog/monolog": "Log using Monolog",
             "predis/predis": "Redis storage"
         },
-        "time": "2015-10-19 20:35:12",
+        "time": "2015-12-10 09:50:24",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.10-dev"
+                "dev-master": "1.11-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "DebugBar": "src/"
+            "psr-4": {
+                "DebugBar\\": "src/DebugBar/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -517,12 +579,17 @@
                 "name": "Maxime Bouroumeau-Fuseau",
                 "email": "maxime.bouroumeau@gmail.com",
                 "homepage": "http://maximebf.com"
+            },
+            {
+                "name": "Barry vd. Heuvel",
+                "email": "barryvdh@gmail.com"
             }
         ],
         "description": "Debug bar in the browser for php application",
         "homepage": "https://github.com/maximebf/php-debugbar",
         "keywords": [
-            "debug"
+            "debug",
+            "debugbar"
         ]
     },
     {
@@ -579,7 +646,7 @@
                 "dev-master": "1.16.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Monolog\\": "src/Monolog"
@@ -631,7 +698,7 @@
         },
         "time": "2014-10-30 22:58:02",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "classmap": [
                 "min/lib/"
@@ -653,37 +720,37 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v2.7.5",
-        "version_normalized": "2.7.5.0",
+        "version": "v2.8.0",
+        "version_normalized": "2.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770"
+            "reference": "f79824187de95064a2f5038904c4d7f0227fedb5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
-            "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/f79824187de95064a2f5038904c4d7f0227fedb5",
+            "reference": "f79824187de95064a2f5038904c4d7f0227fedb5",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.9"
         },
-        "require-dev": {
-            "symfony/phpunit-bridge": "~2.7"
-        },
-        "time": "2015-09-14 14:14:09",
+        "time": "2015-11-30 12:35:10",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.7-dev"
+                "dev-master": "2.8-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Symfony\\Component\\Yaml\\": ""
-            }
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -704,17 +771,17 @@
     },
     {
         "name": "symfony/event-dispatcher",
-        "version": "v2.7.5",
-        "version_normalized": "2.7.5.0",
+        "version": "v2.8.0",
+        "version_normalized": "2.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/event-dispatcher.git",
-            "reference": "ae4dcc2a8d3de98bd794167a3ccda1311597c5d9"
+            "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ae4dcc2a8d3de98bd794167a3ccda1311597c5d9",
-            "reference": "ae4dcc2a8d3de98bd794167a3ccda1311597c5d9",
+            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a5eb815363c0388e83247e7e9853e5dbc14999cc",
+            "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc",
             "shasum": ""
         },
         "require": {
@@ -722,28 +789,30 @@
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/config": "~2.0,>=2.0.5",
-            "symfony/dependency-injection": "~2.6",
-            "symfony/expression-language": "~2.6",
-            "symfony/phpunit-bridge": "~2.7",
-            "symfony/stopwatch": "~2.3"
+            "symfony/config": "~2.0,>=2.0.5|~3.0.0",
+            "symfony/dependency-injection": "~2.6|~3.0.0",
+            "symfony/expression-language": "~2.6|~3.0.0",
+            "symfony/stopwatch": "~2.3|~3.0.0"
         },
         "suggest": {
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2015-09-22 13:49:29",
+        "time": "2015-10-30 20:15:42",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.7-dev"
+                "dev-master": "2.8-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Symfony\\Component\\EventDispatcher\\": ""
-            }
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -787,7 +856,7 @@
                 "dev-master": "3.0.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Pimple": "src/"
@@ -830,7 +899,7 @@
         },
         "time": "2014-11-20 16:49:30",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "files": [
                 "lib/password.php"
@@ -856,17 +925,17 @@
     },
     {
         "name": "rockettheme/toolbox",
-        "version": "1.1.4",
-        "version_normalized": "1.1.4.0",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/rockettheme/toolbox.git",
-            "reference": "ff677d8f66d1addd3590d0cb85bcbaff4174d9c9"
+            "reference": "0c7a3b4b6e4d73be8512e89f7acde6899334b7f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/rockettheme/toolbox/zipball/ff677d8f66d1addd3590d0cb85bcbaff4174d9c9",
-            "reference": "ff677d8f66d1addd3590d0cb85bcbaff4174d9c9",
+            "url": "https://api.github.com/repos/rockettheme/toolbox/zipball/0c7a3b4b6e4d73be8512e89f7acde6899334b7f2",
+            "reference": "0c7a3b4b6e4d73be8512e89f7acde6899334b7f2",
             "shasum": ""
         },
         "require": {
@@ -879,9 +948,9 @@
         "require-dev": {
             "phpunit/phpunit": "4.0.*"
         },
-        "time": "2015-10-15 23:27:40",
+        "time": "2015-11-24 17:04:24",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "RocketTheme\\Toolbox\\ArrayTraits\\": "ArrayTraits/src",
@@ -907,45 +976,48 @@
     },
     {
         "name": "symfony/console",
-        "version": "v2.7.5",
-        "version_normalized": "2.7.5.0",
+        "version": "v2.8.0",
+        "version_normalized": "2.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "06cb17c013a82f94a3d840682b49425cd00a2161"
+            "reference": "d232bfc100dfd32b18ccbcab4bcc8f28697b7e41"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/06cb17c013a82f94a3d840682b49425cd00a2161",
-            "reference": "06cb17c013a82f94a3d840682b49425cd00a2161",
+            "url": "https://api.github.com/repos/symfony/console/zipball/d232bfc100dfd32b18ccbcab4bcc8f28697b7e41",
+            "reference": "d232bfc100dfd32b18ccbcab4bcc8f28697b7e41",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.9"
+            "php": ">=5.3.9",
+            "symfony/polyfill-mbstring": "~1.0"
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/event-dispatcher": "~2.1",
-            "symfony/phpunit-bridge": "~2.7",
-            "symfony/process": "~2.1"
+            "symfony/event-dispatcher": "~2.1|~3.0.0",
+            "symfony/process": "~2.1|~3.0.0"
         },
         "suggest": {
             "psr/log": "For using the console logger",
             "symfony/event-dispatcher": "",
             "symfony/process": ""
         },
-        "time": "2015-09-25 08:32:23",
+        "time": "2015-11-30 12:35:10",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.7-dev"
+                "dev-master": "2.8-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Symfony\\Component\\Console\\": ""
-            }
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -965,18 +1037,76 @@
         "homepage": "https://symfony.com"
     },
     {
-        "name": "twig/twig",
-        "version": "v1.22.3",
-        "version_normalized": "1.22.3.0",
+        "name": "symfony/polyfill-iconv",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/twigphp/Twig.git",
-            "reference": "ebfc36b7e77b0c1175afe30459cf943010245540"
+            "url": "https://github.com/symfony/polyfill-iconv.git",
+            "reference": "21a18998764e569c1675efc7191887130b319605"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/twigphp/Twig/zipball/ebfc36b7e77b0c1175afe30459cf943010245540",
-            "reference": "ebfc36b7e77b0c1175afe30459cf943010245540",
+            "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/21a18998764e569c1675efc7191887130b319605",
+            "reference": "21a18998764e569c1675efc7191887130b319605",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2015-11-04 20:28:58",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Iconv\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for the Iconv extension",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "iconv",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "twig/twig",
+        "version": "v1.23.1",
+        "version_normalized": "1.23.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/twigphp/Twig.git",
+            "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+            "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
             "shasum": ""
         },
         "require": {
@@ -986,14 +1116,14 @@
             "symfony/debug": "~2.7",
             "symfony/phpunit-bridge": "~2.7"
         },
-        "time": "2015-10-13 07:07:02",
+        "time": "2015-11-05 12:49:06",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.22-dev"
+                "dev-master": "1.23-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-0": {
                 "Twig_": "lib/"

@@ -1,8 +1,51 @@
+# v1.0.3
+## 12/11/2015
+
+1. [](#improved)
+    * Updated languages
+    * Allow an action to stop processing
+1. [](#bugfix)
+    * Fix captcha validation
+    * Fix issue where Form was unsetting valid page
+        
+# v1.0.2
+## 12/01/2015
+
+1. [](#bugfix)
+    * Fixed merge of defaults settings
+    * Support for arrays in `data.txt.twig`
+    * Fixed blueprint for admin
+    
+# v1.0.1
+## 12/01/2015
+
+1. [](#new)
+    * New **file upload** field
+    * Added modular form template
+    * Spanish translation
+    * Hungarian translation
+    * Italian translation
+
+# v1.0.0
+## 11/21/2015
+
+1. [](#new)
+    * Server-side validation of forms #11
+    * Added french translation
+    * Added **nonce** form security
+1. [](#improved)
+    * Show a more meaningful error when the display page is not found
+    * Added links to learn site for form examples
+    * Label can be omitted
+    * Allow user to set the CSS class for buttons
+1. [](#bugfix)
+    * Fixed multi-language forms
+    * Checkbox is translatable
+    * Minor fixes
+
 # v0.6.0
 ## 10/21/2015
 
-1. [](#improved)
-    * Added links to learn site for form examples
 1. [](#bugfix)
     * Fixed for missing attributes in textarea field
     * Fixed checkbox inputs

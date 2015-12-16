@@ -12,6 +12,7 @@ use Grav\Common\Plugins;
 use Grav\Common\Themes;
 use Grav\Common\Uri;
 use Grav\Common\User\User;
+use Grav\Common\Utils;
 use RocketTheme\Toolbox\File\File;
 use RocketTheme\Toolbox\File\JsonFile;
 use RocketTheme\Toolbox\File\LogFile;
@@ -312,6 +313,9 @@ class Admin
                     /** @var Plugins $plugins */
                     $plugins = $this->grav['plugins'];
                     $obj = $plugins->get(preg_replace('|plugins/|', '', $type));
+
+                    if (!$obj) { return []; }
+
                     $obj->merge($post);
                     $obj->file($file);
 
@@ -320,6 +324,9 @@ class Admin
                     /** @var Themes $themes */
                     $themes = $this->grav['themes'];
                     $obj = $themes->get(preg_replace('|themes/|', '', $type));
+
+                    if (!$obj) { return []; }
+
                     $obj->merge($post);
                     $obj->file($file);
 
@@ -384,7 +391,7 @@ class Admin
         }
         return $routes;
     }
-    
+
     /**
      * Count the pages
      *
@@ -399,7 +406,7 @@ class Admin
     }
 
     /**
-     * Get All template types
+     * Get all template types
      *
      * @return array
      */
@@ -409,13 +416,27 @@ class Admin
     }
 
     /**
-     * Get All modular template types
+     * Get all modular template types
      *
      * @return array
      */
     public function modularTypes()
     {
         return Pages::modularTypes();
+    }
+
+    /**
+     * Get all access levels
+     *
+     * @return array
+     */
+    public function accessLevels()
+    {
+        if (method_exists($this->grav['pages'], 'accessLevels')) {
+            return $this->grav['pages']->accessLevels();
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -451,7 +472,7 @@ class Admin
         if (!$gpm) {
             return;
         }
-        
+
         return $local ? $gpm->getInstalledThemes() : $gpm->getRepositoryThemes()->filter(function ($package, $slug) use
         (
             $gpm
@@ -492,6 +513,10 @@ class Admin
         $pages = $this->grav['pages'];
 
         $latest = array();
+        
+        if(is_null($pages->routes())){
+            return;
+        }
 
         foreach ($pages->routes() as $url => $path) {
             $page = $pages->dispatch($url, true);
@@ -560,6 +585,16 @@ class Admin
             'chart_fill'  => $chart_fill,
             'chart_empty' => 100 - $chart_fill
         ];
+    }
+
+    /**
+     * Returns the list of available backups
+     *
+     * @return array Array containing the latest backups
+     */
+    public function backups()
+    {
+        return [];
     }
 
     /**
@@ -698,6 +733,17 @@ class Admin
     }
 
     /**
+     * Static helper method to return the admin form nonce
+     *
+     * @return string
+     */
+    public static function getNonce()
+    {
+        $action = 'admin-form';
+        return Utils::getNonce($action);
+    }
+
+    /**
      * Static helper method to return the last used page name
      *
      * @return string
@@ -789,6 +835,11 @@ class Admin
 
             if (!$translation) {
                 $language = $this->grav['language']->getDefault() ?: 'en';
+                $translation = $this->grav['language']->getTranslation($language, $lookup, $array_support);
+            }
+
+            if (!$translation) {
+                $language = 'en';
                 $translation = $this->grav['language']->getTranslation($language, $lookup, $array_support);
             }
 

@@ -1,3 +1,23 @@
+# v1.3.2
+## 12/09/2015
+
+1. [](#improved)
+    * Skip windows platforms for executable permissions check
+    * Removed mod_headers from required Apache modules check
+
+# v1.3.1
+## 12/07/2015
+
+1. [](#improved)
+    * Added executable check on `/bin/` files
+
+# v1.3.0
+## 12/07/2015
+
+1. [](#improved)
+    * Added check for PHP `OpenSSL`, `Mbstring` and `Curl` are installed
+    * Added check to ensure `mod_rewrite` and `mod_headers` are installed if running Apache
+
 # v1.2.0
 ## 08/25/2015
 

@@ -13,6 +13,21 @@
 
     {% set plugin = package.toArray() %}
     {% set title = "PLUGIN_ADMIN.PLUGIN"|tu ~ ": " ~ plugin.name|e %}
+{% else %}
+    {% set title = "PLUGIN_ADMIN.PLUGINS"|tu %}
+{% endif %}
+
+{% if admin.route or installing %}
+    {% block stylesheets %}
+        {% do assets.addCss(theme_url~'/css/codemirror/codemirror.css') %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% do assets.addJs(theme_url~'/js/codemirror-compressed.js') %}
+        {% do assets.addJs(theme_url~'/js/mdeditor.js') %}
+        {{ parent() }}
+    {% endblock %}
 {% endif %}
 
 {% block titlebar %}

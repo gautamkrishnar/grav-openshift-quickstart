@@ -15,6 +15,8 @@ abstract class Utils
 {
     use GravTrait;
 
+    protected static $nonces = [];
+
     /**
      * @param  string $haystack
      * @param  string $needle
@@ -100,6 +102,9 @@ abstract class Utils
         return (object)array_merge((array)$obj1, (array)$obj2);
     }
 
+    /**
+     * @return array
+     */
     public static function dateFormats()
     {
         $now = new DateTime();
@@ -214,9 +219,11 @@ abstract class Utils
             $filesize = filesize($file);
 
             // check if this function is available, if so use it to stop any timeouts
-            if (function_exists('set_time_limit')) {
-                set_time_limit(0);
-            }
+            try {
+                if (!Utils::isFunctionDisabled('set_time_limit') && !ini_get('safe_mode') && function_exists('set_time_limit')) {
+                    set_time_limit(0);
+                }
+            } catch (\Exception $e) {}
 
             ignore_user_abort(false);
 
@@ -300,6 +307,19 @@ abstract class Utils
         return $root . implode('/', $ret);
     }
 
+    /**
+     * @param $function
+     *
+     * @return bool
+     */
+    public static function isFunctionDisabled($function)
+    {
+        return in_array($function, explode(',', ini_get('disable_functions')));
+    }
+
+    /**
+     * @return array
+     */
     public static function timezones()
     {
         $timezones = \DateTimeZone::listIdentifiers(\DateTimeZone::ALL);
@@ -327,6 +347,12 @@ abstract class Utils
 
     }
 
+    /**
+     * @param array $source
+     * @param       $fn
+     *
+     * @return array
+     */
     public static function arrayFilterRecursive(Array $source, $fn)
     {
         $result = array();
@@ -346,6 +372,11 @@ abstract class Utils
         return $result;
     }
 
+    /**
+     * @param $string
+     *
+     * @return bool
+     */
     public static function pathPrefixedByLangCode($string)
     {
         $languages_enabled = self::getGrav()['config']->get('system.languages.supported', []);
@@ -357,6 +388,11 @@ abstract class Utils
         return false;
     }
 
+    /**
+     * @param $date
+     *
+     * @return int
+     */
     public static function date2timestamp($date)
     {
         $config = self::getGrav()['config'];
@@ -378,13 +414,123 @@ abstract class Utils
     }
 
     /**
+     * Get value of an array using dot notation
+     */
+    public static function resolve(array $array, $path, $default = null)
+    {
+        $current = $array;
+        $p = strtok($path, '.');
+
+        while ($p !== false) {
+            if (!isset($current[$p])) {
+                return $default;
+            }
+            $current = $current[$p];
+            $p = strtok('.');
+        }
+
+        return $current;
+    }
+
+    /**
      * Checks if a value is positive
      *
      * @param string $value
      *
      * @return boolean
      */
-    public static function isPositive($value) {
+    public static function isPositive($value)
+    {
         return in_array($value, [true, 1, '1', 'yes', 'on', 'true'], true);
+    }
+
+    /**
+     * Generates a nonce string to be hashed. Called by self::getNonce()
+     *
+     * @param string $action
+     * @param bool $plusOneTick if true, generates the token for the next tick (the next 12 hours)
+     *
+     * @return string the nonce string
+     */
+    private static function generateNonceString($action, $plusOneTick = false)
+    {
+        if (isset(self::getGrav()['user'])) {
+            $user = self::getGrav()['user'];
+            $username = $user->username;
+            if (isset($_SERVER['REMOTE_ADDR'])) {
+                $username .= $_SERVER['REMOTE_ADDR'];
+            }
+        } else {
+            $username = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+        }
+
+        $token = session_id();
+        $i = self::nonceTick();
+
+        if ($plusOneTick) {
+            $i++;
+        }
+
+        return ( $i . '|' . $action . '|' . $username . '|' . $token . '|' . self::getGrav()['config']->get('security.salt'));
+    }
+
+    /**
+     * Get the time-dependent variable for nonce creation.
+     *
+     * @todo now a tick lasts a day. Once the day is passed, the nonce is not valid any more. Find a better way
+     *       to ensure nonces issued near the end of the day do not expire in that small amount of time
+     *
+     * @return int the time part of the nonce. Changes once every 24 hours
+     */
+    private static function nonceTick()
+    {
+        $secondsInHalfADay = 60 * 60 * 12;
+        return (int)ceil(time() / ( $secondsInHalfADay ));
+    }
+
+    /**
+     * Creates a hashed nonce tied to the passed action. Tied to the current user and time. The nonce for a given
+     * action is the same for 12 hours.
+     *
+     * @param string $action the action the nonce is tied to (e.g. save-user-admin or move-page-homepage)
+     * @param bool $plusOneTick if true, generates the token for the next tick (the next 12 hours)
+     *
+     * @return string the nonce
+     */
+    public static function getNonce($action, $plusOneTick = false)
+    {
+        // Don't regenerate this again if not needed
+        if (isset(static::$nonces[$action])) {
+            return static::$nonces[$action];
+        }
+        $nonce = md5(self::generateNonceString($action, $plusOneTick));
+        static::$nonces[$action] = $nonce;
+
+        return static::$nonces[$action];
+    }
+
+    /**
+     * Verify the passed nonce for the give action
+     *
+     * @param string $nonce the nonce to verify
+     * @param string $action the action to verify the nonce to
+     *
+     * @return boolean verified or not
+     */
+    public static function verifyNonce($nonce, $action)
+    {
+        //Nonce generated 0-12 hours ago
+        if ($nonce == self::getNonce($action)) {
+            return true;
+        }
+
+        //Nonce generated 12-24 hours ago
+        $plusOneTick = true;
+        if ($nonce == self::getNonce($action, $plusOneTick)) {
+            return true;
+        }
+
+        //Invalid nonce
+        return false;
     }
 }

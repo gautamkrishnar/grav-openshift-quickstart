@@ -5,6 +5,7 @@ use Exception;
 use Grav\Common\Filesystem\Folder;
 use Grav\Common\Config\Config;
 use Grav\Common\GravTrait;
+use Grav\Common\Language\Language;
 use Grav\Common\Utils;
 use Grav\Common\Cache;
 use Grav\Common\Twig;
@@ -41,6 +42,7 @@ class Page
     protected $folder;
     protected $path;
     protected $extension;
+    protected $url_extension;
 
     protected $id;
     protected $parent;
@@ -128,6 +130,7 @@ class Page
         $this->modularTwig($this->slug[0] == '_');
         $this->setPublishState();
         $this->published();
+        $this->urlExtension();
 
         // some extension logic
         if (empty($extension)) {
@@ -135,6 +138,7 @@ class Page
         } else {
             $this->extension($extension);
         }
+
 
         // extract page language from page extension
         $language = trim(basename($this->extension(), 'md'), '.') ?: null;
@@ -349,7 +353,6 @@ class Page
             if (isset($this->header->last_modified)) {
                 $this->last_modified = (bool) $this->header->last_modified;
             }
-
         }
 
         return $this->header;
@@ -379,7 +382,7 @@ class Page
      */
     public function modifyHeader($key, $value)
     {
-        $this->header->$key = $value;
+        $this->header->{$key} = $value;
     }
 
     /**
@@ -390,8 +393,7 @@ class Page
      */
     public function summary($size = null)
     {
-        /** @var Config $config */
-        $config = self::getGrav()['config']->get('site.summary');
+        $config = (array) self::getGrav()['config']->get('site.summary');
         if (isset($this->header->summary)) {
             $config = array_merge($config, $this->header->summary);
         }
@@ -726,27 +728,30 @@ class Page
      * You need to call $this->save() in order to perform the move.
      *
      * @param Page $parent New parent page.
-     * @return Page
+     * @return $this
      */
     public function move(Page $parent)
     {
-        $clone = clone $this;
-        $clone->_action = 'move';
-        $clone->_original = $this;
-        $clone->parent($parent);
-        $clone->id(time().md5($clone->filePath()));
+        if (!$this->_original) {
+            $clone = clone $this;
+            $this->_original = $clone;
+        }
+
+        $this->_action = 'move';
+        $this->parent($parent);
+        $this->id(time().md5($this->filePath()));
 
         if ($parent->path()) {
-            $clone->path($parent->path() . '/' . $clone->folder());
+            $this->path($parent->path() . '/' . $this->folder());
         }
 
         if ($parent->route()) {
-            $clone->route($parent->route() . '/'. $clone->slug());
+            $this->route($parent->route() . '/'. $this->slug());
         } else {
-            $clone->route(self::getGrav()['pages']->root()->route() . '/'. $clone->slug());
+            $this->route(self::getGrav()['pages']->root()->route() . '/'. $this->slug());
         }
 
-        return $clone;
+        return $this;
     }
 
     /**
@@ -756,14 +761,14 @@ class Page
      * You need to call $this->save() in order to perform the move.
      *
      * @param Page $parent New parent page.
-     * @return Page
+     * @return $this
      */
     public function copy($parent)
     {
-        $clone = $this->move($parent);
-        $clone->_action = 'copy';
+        $this->move($parent);
+        $this->_action = 'copy';
 
-        return $clone;
+        return $this;
     }
 
     /**
@@ -824,7 +829,7 @@ class Page
         $blueprints = $this->blueprints();
         $values = $blueprints->filter($this->toArray());
         if ($values && isset($values['header'])) {
-        	$this->header($values['header']);
+            $this->header($values['header']);
         }
     }
 
@@ -955,6 +960,17 @@ class Page
             $this->extension = '.' . pathinfo($this->name(), PATHINFO_EXTENSION);
         }
         return $this->extension;
+    }
+
+    public function urlExtension()
+    {
+        // if not set in the page get the value from system config
+        if (empty($this->url_extension)) {
+            $this->url_extension = trim(isset($this->header->append_url_extension) ? $this->header->append_url_extension : self::getGrav()['config']->get('system.pages.append_url_extension', false));
+        }
+
+        return $this->url_extension;
+
     }
 
     /**
@@ -1137,7 +1153,7 @@ class Page
             $this->metadata = [];
 
             // Set the Generator tag
-            $this->metadata['generator'] = array('name'=>'generator', 'content'=>'GravCMS ' . GRAV_VERSION);
+            $this->metadata['generator'] = array('name'=>'generator', 'content'=>'GravCMS');
 
             // Get initial metadata for the page
             $metadata  = self::getGrav()['config']->get('site.metadata');
@@ -1262,7 +1278,7 @@ class Page
 
         $rootUrl = $uri->rootUrl($include_host) . $pages->base();
 
-        $url = $rootUrl.'/'.trim($route, '/');
+        $url = $rootUrl.'/'.trim($route, '/') . $this->urlExtension();
 
         // trim trailing / if not root
         if ($url !== '/') {
@@ -1471,7 +1487,17 @@ class Page
      */
     public function filePathClean()
     {
-        return str_replace(ROOT_DIR, '', $this->filePath());
+        $path = str_replace(ROOT_DIR, '', $this->filePath());
+        return $path;
+    }
+
+    /**
+     * Returns the clean path to the page file
+     */
+    public function relativePagePath()
+    {
+        $path = str_replace('/'.$this->name, '', $this->filePathClean());
+        return $path;
     }
 
     /**
@@ -1782,11 +1808,13 @@ class Page
 
         if (isset($routes[$uri_path])) {
             $child_page = $pages->dispatch($uri->route())->parent();
-            if ($child_page) while (!$child_page->root()) {
-                if ($this->path() == $child_page->path()) {
-                    return true;
+            if ($child_page) {
+                while (!$child_page->root()) {
+                    if ($this->path() == $child_page->path()) {
+                        return true;
+                    }
+                    $child_page = $child_page->parent();
                 }
-                $child_page = $child_page->parent();
             }
         }
 
@@ -1820,7 +1848,7 @@ class Page
     /**
      * Helper method to return a page.
      *
-     * @param  string $url the url of the page
+     * @param string  $url the url of the page
      * @param bool    $all
      *
      * @return \Grav\Common\Page\Page page you were looking for if it exists
@@ -1928,7 +1956,7 @@ class Page
      * @return mixed
      * @internal
      */
-    protected function evaluate($value)
+    public function evaluate($value)
     {
         // Parse command.
         if (is_string($value)) {
@@ -1979,16 +2007,16 @@ class Page
                         case 'children':
                             $results = $this->children()->nonModular();
                             break;
-
+                        case 'all':
+                            $results = $this->children();
+                            break;
                         case 'parent':
                             $collection = new Collection();
                             $results = $collection->addPage($this->parent());
                             break;
-
                         case 'siblings':
                             $results = $this->parent()->children()->remove($this->path());
                             break;
-
                         case 'descendants':
                             $results = $pages->all($this)->remove($this->path())->nonModular();
                             break;
@@ -2118,7 +2146,7 @@ class Page
      */
     protected function doRelocation($reorder)
     {
-        if (empty($this->_original) ) {
+        if (!$this->_original) {
             return;
         }
 
@@ -2159,7 +2187,7 @@ class Page
                     // Handle all the other pages.
                     $page = $pages->get($path);
 
-                    if ($page && $page->exists() && $page->order() != $order+1) {
+                    if ($page && $page->exists() && !$page->_action && $page->order() != $order+1) {
                         $page = $page->move($parent);
                         $page->order($order+1);
                         $page->save(false);
@@ -2167,11 +2195,12 @@ class Page
                 }
             }
         }
-        if ($this->_action == 'move' && $this->_original->exists()) {
-            Folder::move($this->_original->path(), $this->path());
-        }
-        if ($this->_action == 'copy' && $this->_original->exists()) {
-            Folder::copy($this->_original->path(), $this->path());
+        if (is_dir($this->_original->path())) {
+            if ($this->_action == 'move') {
+                Folder::move($this->_original->path(), $this->path());
+            } elseif ($this->_action == 'copy') {
+                Folder::copy($this->_original->path(), $this->path());
+            }
         }
 
         if ($this->name() != $this->_original->name()) {
@@ -2181,7 +2210,6 @@ class Page
             }
         }
 
-        $this->_action = null;
         $this->_original = null;
     }
 

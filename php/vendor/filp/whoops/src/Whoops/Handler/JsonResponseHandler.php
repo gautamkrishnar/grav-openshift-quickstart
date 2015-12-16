@@ -84,8 +84,7 @@ class JsonResponseHandler extends Handler
             header('Content-Type: application/json');
         }
 
-        echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
-
+        echo json_encode($response);
         return Handler::QUIT;
     }
 }

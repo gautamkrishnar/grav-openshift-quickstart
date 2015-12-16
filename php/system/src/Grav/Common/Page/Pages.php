@@ -237,7 +237,7 @@ class Pages
     /**
      * Get a page instance.
      *
-     * @param  string  $path
+     * @param  string  $path The filesystem full path of the page
      * @return Page
      * @throws \Exception
      */
@@ -264,7 +264,7 @@ class Pages
     /**
      * Dispatch URI to a page.
      *
-     * @param $url
+     * @param string $url The relative URL of the page
      * @param bool $all
      * @return Page|null
      */
@@ -272,6 +272,10 @@ class Pages
     {
         // Fetch page if there's a defined route to it.
         $page = isset($this->routes[$url]) ? $this->get($this->routes[$url]) : null;
+        // Try without trailing slash
+        if (!$page && Utils::endsWith($url, '/')) {
+            $page = isset($this->routes[rtrim($url, '/')]) ? $this->get($this->routes[rtrim($url, '/')]) : null;
+        }
 
         // Are we in the admin? this is important!
         $not_admin = !isset($this->grav['admin']);
@@ -483,6 +487,36 @@ class Pages
     }
 
     /**
+     * Get access levels of the site pages
+     *
+     * @return array
+     */
+    public function accessLevels()
+    {
+        $accessLevels = [];
+        foreach($this->all() as $page) {
+            if (isset($page->header()->access)) {
+                if (is_array($page->header()->access)) {
+                    foreach($page->header()->access as $index => $accessLevel) {
+                        if (is_array($accessLevel)) {
+                            foreach($accessLevel as $innerIndex => $innerAccessLevel) {
+                                array_push($accessLevels, $innerIndex);
+                            }
+                        } else {
+                            array_push($accessLevels, $index);
+                        }
+                    }
+                } else {
+
+                    array_push($accessLevels, $page->header()->access);
+                }
+            }
+        }
+
+        return array_unique($accessLevels);
+    }
+
+    /**
      * Get available parents.
      *
      * @return array
@@ -494,7 +528,22 @@ class Pages
         /** @var Pages $pages */
         $pages = $grav['pages'];
 
-        return $pages->getList();
+        $parents = $pages->getList();
+
+        /** @var Admin $admin */
+        $admin = $grav['admin'];
+
+        // Remove current route from parents
+        if (isset($admin)) {
+            $page = $admin->getPage($admin->route);
+            $page_route = $page->route();
+            if (isset($parents[$page_route])) {
+                unset($parents[$page_route]);
+            }
+
+        }
+
+        return $parents;
     }
 
     /**

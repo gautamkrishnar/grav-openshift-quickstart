@@ -14,6 +14,4 @@ return array(
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Gregwar\\Image' => array($vendorDir . '/gregwar/image'),
     'Gregwar\\Cache' => array($vendorDir . '/gregwar/cache'),
-    'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib'),
-    'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
 );

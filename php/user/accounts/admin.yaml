@@ -1,8 +1,0 @@
-password: 'password'
-email: 'youremail@mail.com'
-fullname: 'Administrator'
-title: 'Site Administrator'
-access:
-  admin:
-    login: true
-    super: true

@@ -282,6 +282,8 @@
     };
 
     Form.prototype.submit = function(ajax) {
+        // TODO: workaround, need to rework forms
+        this.scanned = false; // force to rescan items
         var action = this.form.attr('action') || document.location,
             method = this.form.attr('method') || 'POST',
             values = {};
@@ -320,7 +322,8 @@
         if (!ajax) {
             var form = $('<form>').attr({ method: method, action: action });
 
-            for (var name in values) { if (values.hasOwnProperty(name)) {
+            for (var name in values) {
+                if (values.hasOwnProperty(name)) {
                     $('<input>').attr({ type: 'hidden', name: name, value: values[name] }).appendTo(form);
                 }
             }

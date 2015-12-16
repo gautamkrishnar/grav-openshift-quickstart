@@ -1,10 +1,9 @@
 ---
 title: Login
-template: form
 
 form:
     name: login
-    action: 
+    action:
     method: post
 
     fields:
