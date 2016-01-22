@@ -1,0 +1,8 @@
+#!/bin/bash
+#Edit common.sh to modify httpd arguments
+
+source ${OPENSHIFT_REPO_DIR}/misc/common.sh
+
+httpd ${HTTPD_ARGUMENT} -k restart
+
+exit 0
