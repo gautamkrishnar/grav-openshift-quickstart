@@ -83,7 +83,9 @@ class EmailPlugin extends Plugin
 
         // Extend parameters with defaults.
         $params += array(
+            'bcc' => array(),
             'body' => '{% include "forms/data.html.twig" %}',
+            'cc' => array(),
             'charset' => 'utf-8',
             'from' => $this->config->get('plugins.email.from'),
             'from_name' => $this->config->get('plugins.email.from_name'),
@@ -96,6 +98,13 @@ class EmailPlugin extends Plugin
 
         // Create message object.
         $message = $this->email->message();
+
+        if (!$params['to']) {
+            throw new \RuntimeException($this->grav['language']->translate('PLUGIN_EMAIL.PLEASE_CONFIGURE_A_TO_ADDRESS'));
+        }
+        if (!$params['from']) {
+            throw new \RuntimeException($this->grav['language']->translate('PLUGIN_EMAIL.PLEASE_CONFIGURE_A_FROM_ADDRESS'));
+        }
 
         // Process parameters.
         foreach ($params as $key => $value) {

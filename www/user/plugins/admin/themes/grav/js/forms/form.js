@@ -171,9 +171,14 @@
         this.form = $(el);
         this.form.data('grav-form-instance', this);
         this.form.on('submit', function (e) {
-            this.submit(this.ajax);
-            e.preventDefault();
-            return false;
+            if (Form.findElements(this.form, 'input[type="file"]', '', false).length == 0) {
+                //Only process the form if it does not contain file elements, otherwise we cannot get
+                //$_FILES correctly. This is a workaround that causes issues for example when nesting
+                //file inputs within tabs navigation in blueprints. Needs rework.
+                this.submit(this.ajax);
+                e.preventDefault();
+                return false;
+            }
         }.bind(this));
 
         this.scanned = false;
@@ -289,13 +294,13 @@
             values = {};
 
         // Get form values that are not handled by JS framework
-        Form.findElements(this.form, 'input, textarea', '', false).each(function(input) {
+        Form.findElements(this.form, 'input, textarea', '', false).each(function() {
             var input = $(this),
                 name = input.attr('name'),
                 parent = input.parent('[data-grav-disabled]'),
                 value = input.val();
 
-            if (input.is(':disabled') || (parent && parent.data('grav-disabled') == 'true')) { return; }
+            if (input.is(':disabled') || input.hasClass('tab-head') || (parent && parent.data('grav-disabled') == 'true')) { return; }
 
             if (name) {
                 values[name] = value;

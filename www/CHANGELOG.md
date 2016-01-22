@@ -1,3 +1,81 @@
+# v1.0.8
+## 01/08/2016
+
+1. [](#new)
+    * Added `rotate`, `flip` and `fixOrientation` image medium methods
+1. [](#bugfix)
+    * Removed IP from Nonce generation. Should be more reliably in a variety of scenarios
+
+# v1.0.7
+## 01/07/2016
+
+1. [](#new)
+    * Added `composer create-project` as an additional installation method #585
+    * New optional system config setting to strip home from page routs and urls #561
+    * Added Greek, Finnish, Norwegian, Polish, Portuguese, and Romanian languages
+    * Added new `Page->topParent()` method to return top most parent of a page
+    * Added plugins configuration tab to debugger
+    * Added support for APCu and PHP7.0 via new Doctrine Cache release
+    * Added global setting for `twig_first` processing (false by default)
+    * New configuration options for Session settings #553
+1. [](#improved)   
+    * Switched to SSL for GPM calls
+    * Use `URI->host()` for session domain
+    * Add support for `open_basedir` when installing packages via GPM
+    * Improved `Utils::generateNonceString()` method to handle reverse proxies
+    * Optimized core thumbnails saving 38% in file size
+    * Added new `bin/gpm index --installed-only` option 
+    * Improved GPM errors to provider more helpful diagnostic of issues
+    * Removed old hardcoded PHP version references
+    * Moved `onPageContentProcessed()` event so it's fired more reliably
+    * Maintain md5 keys during sorting of Assets #566
+    * Update to Caddyfile for Caddy web server
+1. [](#bugfix)
+    * Fixed an issue with cache/config checksum not being set on cache load
+    * Fix for page blueprint and theme inheritance issue #534
+    * Set `ZipBackup` timeout to 10 minutes if possible
+    * Fix case where we only have inline data for CSS or JS  #565 
+    * Fix `bin/grav sandbox` command to work with new `webserver-config` folder
+    * Fix for markdown attributes on external URLs
+    * Fixed issue where `data:` page header was acting as `publish_date:`
+    * Fix for special characters in URL parameters (e.g. /tag:c++) #541
+    * Safety check for an array of nonces to only use the first one
+
+# v1.0.6
+## 12/22/2015
+
+1. [](#new)
+    * Set minimum requirements to [PHP 5.5.9](http://bit.ly/1Jt9OXO)
+    * Added `saveConfig` to Themes
+1. [](#improved)
+    * Updated Whoops to new 2.0 version (PHP 7.0 compatible)
+    * Moved sample web server configs into dedicated directory
+    * FastCGI will use Apache's `mod_deflate` if gzip turned off
+1. [](#bugfix)
+    * Fix broken media image operators
+    * Only call extra method of blueprints if blueprints exist
+    * Fix lang prefix in url twig variables #523
+    * Fix case insensitive HTTPS check #535
+    * Field field validation handles case `multiple` missing
+
+# v1.0.5
+## 12/18/2015
+
+1. [](#new)
+    * Add ability to extend markdown with plugins
+    * Added support for plugins to have individual language files
+    * Added `7z` to media formats
+    * Use Grav's fork of Parsedown until PR is merged
+    * New function to persist plugin configuration to disk
+    * GPM `selfupgrade` will now check PHP version requirements
+1. [](#improved)
+    * If the field allows multiple files, return array
+    * Handle non-array values in file validation
+1. [](#bugfix)
+    * Fix when looping `fields` param in a `list` field
+    * Properly convert commas to spaces for media attributes
+    * Forcing Travis VM to HI timezone to address future files in zip file
+
 # v1.0.4
 ## 12/12/2015
 
@@ -19,7 +97,7 @@
 # v1.0.1
 ## 12/11/2015
 
-1. [](#improved)   
+1. [](#improved)
     * Reduced package sizes by removing extra vendor dev bits
 1. [](#bugfix)
     * Fix issue when you enable debugger from admin plugin
@@ -32,7 +110,7 @@
     * Added setters to set state of CSS/JS pipelining
     * Added `user/accounts` to `.gitignore`
     * Added configurable permissions option for Image cache
-1. [](#improved)   
+1. [](#improved)
     * Hungarian translation updated
     * Refactored Theme initialization for improved flexibility
     * Wrapped security section of account blueprints in an 'super user' authorize check
@@ -66,7 +144,7 @@
     * Automatically create unique security salt for each configuration
     * Added Hungarian translation
     * Added support for User groups
-1. [](#improved)   
+1. [](#improved)
     * Improved robots.txt to disallow crawling of non-user folders
     * Nonces only generated once per action and process
     * Added IP into Nonce string calculation

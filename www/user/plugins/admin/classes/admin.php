@@ -336,6 +336,15 @@ class Admin
                     $obj->merge($post);
 
                     $data[$type] = $obj;
+                } elseif (preg_match('|config/|', $type)) {
+                    $type = preg_replace('|config/|', '', $type);
+                    $blueprints = $this->blueprints("config/{$type}");
+                    $config = $this->grav['config'];
+                    $obj = new Data\Data($config->get($type), $blueprints);
+                    $obj->merge($post);
+                    $file = CompiledYamlFile::instance($this->grav['locator']->findResource("config://{$type}.yaml"));
+                    $obj->file($file);
+                    $data[$type] = $obj;
                 } else {
                     throw new \RuntimeException("Data type '{$type}' doesn't exist!");
                 }
@@ -689,11 +698,44 @@ class Admin
     public static function adminLanguages()
     {
         $languages = [];
-        $lang_data = Yaml::parse(file_get_contents(__DIR__ . '/../languages.yaml'));
-        foreach ($lang_data as $lang => $values) {
+
+        $path = Grav::instance()['locator']->findResource('plugins://admin/languages');
+
+        /** @var \DirectoryIterator $directory */
+        foreach (new \DirectoryIterator($path) as $file) {
+            if ($file->isDir() || $file->isDot()) {
+                continue;
+            }
+
+            $lang = basename($file->getBasename(), '.yaml');
+
             $languages[$lang] = LanguageCodes::getNativeName($lang);
+
         }
         return $languages;
+    }
+
+    /**
+     * Return the configuration files found
+     *
+     * @return array
+     */
+    public static function configurations()
+    {
+        $configurations = [];
+        $path = Grav::instance()['locator']->findResource('user://config');
+        
+        /** @var \DirectoryIterator $directory */
+        foreach (new \DirectoryIterator($path) as $file) {
+            if ($file->isDir() || $file->isDot() || $file->getBasename()[0] == '.') {
+                continue;
+            }
+
+            $configurations[] = basename($file->getBasename(), '.yaml');
+
+        }
+        
+        return $configurations;
     }
 
     /**

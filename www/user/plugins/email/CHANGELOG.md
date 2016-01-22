@@ -1,3 +1,19 @@
+# v2.1.1
+## 01/06/2016
+
+1. [](#improved)
+    * Throw an exception when trying to send emails without a 'from' or 'to' parameters setup, to intercept less meaningful errors and provide a better description on how to fix the problem 
+
+# v2.1.0
+## 12/18/2015
+
+1. [](#new)
+    * Added missing `content_type` to email.yaml
+    * Added default values for CC and BCC
+ 1. [](#improved)
+    * Improved documentation of new email params in `README.md`
+    * Moved config setting of `mailer.default` to `mailer.engine`
+
 # v2.0.0
 ## 12/11/2015
 

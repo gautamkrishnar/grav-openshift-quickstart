@@ -1,3 +1,21 @@
+# v1.3.0
+## 01/06/2016
+
+1. [](#new)
+    * Added a new CLI command to change a user's password
+    * Added a new CLI command to edit the user state
+1. [](#improved)
+    * Improved french translation
+
+# v1.2.1
+## 12/18/2015
+
+1. [](#new)
+    * Croatian translation
+1. [](#improved)
+    * Use type `email` in registration form
+    * Drop manual validation in registration
+
 # v1.2.0
 ## 12/11/2015
 
@@ -13,7 +31,7 @@
     * Tab-based plugin configuration
     * Updated translations
 1. [](#bugfix)
-    * Prevent failing when no efaul values are set
+    * Prevent failing when no default values are set
 
 # v1.1.0
 ## 12/01/2015

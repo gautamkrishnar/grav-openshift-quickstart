@@ -57,8 +57,6 @@ class Grav extends Container
 
         $container['grav'] = $container;
 
-
-
         $container['debugger'] = new Debugger();
         $container['debugger']->startTimer('_init', 'Initialize');
 
@@ -184,8 +182,6 @@ class Grav extends Container
     {
         /** @var Debugger $debugger */
         $debugger = $this['debugger'];
-
-
 
         // Initialize configuration.
         $debugger->startTimer('_config', 'Configuration');
@@ -417,41 +413,49 @@ class Grav extends Container
      */
     public function shutdown()
     {
-        if ($this['config']->get('system.debugger.shutdown.close_connection')) {
-            // Prevent user abort.
-            if (function_exists('ignore_user_abort')) {
-                @ignore_user_abort(true);
-            }
-
-            // Close the session.
-            if (isset($this['session'])) {
-                $this['session']->close();
-            }
-
-            if ($this['config']->get('system.cache.gzip')) {
-                // Flush gzhandler buffer if gzip was enabled.
-                ob_end_flush();
-            } else {
-                // Otherwise prevent server from compressing the output.
-                header('Content-Encoding: none');
-            }
-
-            // Get length and close the connection.
-            header('Content-Length: ' . ob_get_length());
-            header("Connection: close");
-
-            // flush the regular buffer
-            ob_end_flush();
-            @ob_flush();
-            flush();
-
-            // Fix for fastcgi close connection issue.
-            if (function_exists('fastcgi_finish_request')) {
-                @fastcgi_finish_request();
-            }
-
+        // Prevent user abort allowing onShutdown event to run without interruptions.
+        if (function_exists('ignore_user_abort')) {
+            @ignore_user_abort(true);
         }
 
+        // Close the session allowing new requests to be handled.
+        if (isset($this['session'])) {
+            $this['session']->close();
+        }
+
+        if ($this['config']->get('system.debugger.shutdown.close_connection', true)) {
+            // Flush the response and close the connection to allow time consuming tasks to be performed without leaving
+            // the connection to the client open. This will make page loads to feel much faster.
+
+            // FastCGI allows us to flush all response data to the client and finish the request.
+            $success = function_exists('fastcgi_finish_request') ? @fastcgi_finish_request() : false;
+
+            if (!$success) {
+                // Unfortunately without FastCGI there is no way to close the connection. We need to ask browser to
+                // close the connection for us.
+
+                if ($this['config']->get('system.cache.gzip')) {
+                    // Flush gzhandler buffer if gzip setting was enabled.
+                    ob_end_flush();
+
+                } else {
+                    // Without gzip we have no other choice than to prevent server from compressing the output.
+                    // This action turns off mod_deflate which would prevent us from closing the connection.
+                    header('Content-Encoding: none');
+                }
+
+                // Get length and close the connection.
+                header('Content-Length: ' . ob_get_length());
+                header("Connection: close");
+
+                // Finally flush the regular buffer.
+                ob_end_flush();
+                @ob_flush();
+                flush();
+            }
+        }
+
+        // Run any time consuming tasks.
         $this->fireEvent('onShutdown');
     }
 
@@ -484,7 +488,7 @@ class Grav extends Container
         if ($page) {
             $media = $page->media()->all();
 
-            $parsed_url = parse_url(urldecode($uri->basename()));
+            $parsed_url = parse_url(rawurldecode($uri->basename()));
 
             $media_file = $parsed_url['path'];
 

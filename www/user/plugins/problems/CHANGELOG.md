@@ -1,3 +1,18 @@
+# v1.4.0
+## 01/06/2016
+
+1. [](#improved)
+    * Avoid generating errors on .DS_Store files added to the bin/ folder by OSX
+    * Removed executable checks for bin/* commands. Going to document instead.
+
+# v1.3.3
+## 12/09/2015
+
+1. [](#new)
+    * Set minimum PHP requirements to 5.5.9
+1. [](#improved)
+    * Ensure problems plugin runs before admin    
+
 # v1.3.2
 ## 12/09/2015
 
