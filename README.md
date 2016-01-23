@@ -9,7 +9,7 @@ More information can be found at: http://www.getgrav.org/
 
 Create an account at http://openshift.redhat.com/
 
-[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=php-5.4&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
+[![Click to install OpenShift](http://launch-shifter.rhcloud.com/launch/light/Click to install.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=diy&initial_git_url=https://github.com/gautamkrishnar/grav-openshift-quickstart.git&name=grav)
 
 ### How to use
 After installing you can login to admin console(still in beta) by pointing your browser to: http://grav-yourdomain.rhcloud.com/admin
@@ -52,3 +52,7 @@ Then add a cname entry in your domain's dns configuration pointing your alias to
 
 ### Spread the word
 Liked using Grav in openshift! Don't forget to spread the word by starring this repo.
+
+### Special thanks
+* Special thanks [laobubu](https://github.com/laobubu/openshift-php5.5-cgi-apache) for his [openshift-php5.5-cgi-apache quickstart](https://github.com/laobubu/openshift-php5.5-cgi-apache).
+* Thanks [jouser](https://github.com/jojouser) for bug [#1](https://github.com/gautamkrishnar/grav-openshift-quickstart/issues/1)
