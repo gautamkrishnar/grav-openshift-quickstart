@@ -1,1 +1,16 @@
-bash ${OPENSHIFT_REPO_DIR}/misc/make.sh
+#!/bin/bash
+
+OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
+BUILD_LOG=/tmp/build_log
+
+if [ ! -x $OPENSHIFT_RUNTIME_DIR/bin/php-cgi ] && [ ! -f $BUILD_LOG ]
+then
+    echo "php-cgi not found. start compiling PHP"
+    echo "build log can be found in ${BUILD_LOG}"
+    cp    ${OPENSHIFT_REPO_DIR}/misc/index.cgi ${OPENSHIFT_REPO_DIR}/www
+    nohup bash ${OPENSHIFT_REPO_DIR}/misc/make.sh > ${BUILD_LOG} 2>&1 &
+fi
+
+exit 0
+
+
