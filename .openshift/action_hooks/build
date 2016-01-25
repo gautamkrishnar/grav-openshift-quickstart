@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo "Creating htaccess file"
+mv -f ${OPENSHIFT_REPO_DIR}/www/htaccess.txt ${OPENSHIFT_REPO_DIR}/www/.htaccess
 OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
 BUILD_LOG=/tmp/build_log
 
