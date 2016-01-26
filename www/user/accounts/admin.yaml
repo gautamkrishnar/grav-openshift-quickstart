@@ -1,0 +1,8 @@
+password: 'admin'
+email: 'admin@mail.com'
+fullname: 'Administrator'
+title: 'Site Administrator'
+access:
+  admin:
+    login: true
+    super: true
