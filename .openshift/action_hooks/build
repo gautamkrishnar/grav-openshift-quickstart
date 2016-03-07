@@ -2,5 +2,5 @@
 # This is a simple build script, place your post-deploy but pre-start commands in this script.  This script gets executed directly, so it could 
 # be python, php, ruby, etc.
 #
-echo "Creating htaccess file"
-mv -f ${OPENSHIFT_REPO_DIR}/php/htaccess.txt ${OPENSHIFT_REPO_DIR}/php/.htaccess
+#echo "Creating htaccess file"
+#mv -f ${OPENSHIFT_REPO_DIR}/php/htaccess.txt ${OPENSHIFT_REPO_DIR}/php/.htaccess
