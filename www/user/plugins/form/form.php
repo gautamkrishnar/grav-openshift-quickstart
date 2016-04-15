@@ -6,6 +6,10 @@ use Symfony\Component\Yaml\Yaml;
 use RocketTheme\Toolbox\File\File;
 use RocketTheme\Toolbox\Event\Event;
 
+/**
+ * Class FormPlugin
+ * @package Grav\Plugin
+ */
 class FormPlugin extends Plugin
 {
     /**

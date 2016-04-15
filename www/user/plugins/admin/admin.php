@@ -17,6 +17,10 @@ use RocketTheme\Toolbox\Session\Session;
 
 class AdminPlugin extends Plugin
 {
+    public $features = [
+        'blueprints' => 1000,
+    ];
+
     /**
      * @var bool
      */
@@ -71,9 +75,11 @@ class AdminPlugin extends Plugin
             return [
                 'onPluginsInitialized'  => [['setup', 100000], ['onPluginsInitialized', 1000]],
                 'onShutdown'            => ['onShutdown', 1000],
-                'onFormProcessed'       => ['onFormProcessed', 0]
+                'onFormProcessed'       => ['onFormProcessed', 0],
+                'onAdminDashboard'      => ['onAdminDashboard', 0],
             ];
         }
+
 
         return [];
     }
@@ -94,10 +100,10 @@ class AdminPlugin extends Plugin
 
         // check for existence of a user account
         $account_dir = $file_path = $this->grav['locator']->findResource('account://');
-        $user_check = (array) glob($account_dir . '/*.yaml');
+        $user_check = glob($account_dir . '/*.yaml');
 
         // If no users found, go to register
-        if (!count($user_check) > 0) {
+        if ($user_check == false || count((array)$user_check) == 0) {
             if (!$this->isAdminPath()) {
                 $this->grav->redirect($this->base);
             }
@@ -117,12 +123,11 @@ class AdminPlugin extends Plugin
      * - 'password1' for password format
      * - 'password2' for equality to password1
      *
-     * @param object $form      The form
      * @param string $type      The field type
      * @param string $value     The field value
      * @param string $extra     Any extra value required
      *
-     * @return mixed
+     * @return bool
      */
     protected function validate($type, $value, $extra = '')
     {
@@ -132,22 +137,21 @@ class AdminPlugin extends Plugin
                     return false;
                 }
                 return true;
-                break;
 
             case 'password1':
                 if (!preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/', $value)) {
                     return false;
                 }
                 return true;
-                break;
 
             case 'password2':
                 if (strcmp($value, $extra)) {
                     return false;
                 }
                 return true;
-                break;
         }
+
+        return false;
     }
 
     /**
@@ -253,7 +257,7 @@ class AdminPlugin extends Plugin
             }
 
             // Replace themes service with admin.
-            $this->grav['themes'] = function ($c) {
+            $this->grav['themes'] = function () {
                 require_once __DIR__ . '/classes/themes.php';
                 return new Themes($this->grav);
             };
@@ -326,6 +330,8 @@ class AdminPlugin extends Plugin
         // make sure page is not frozen!
         unset($this->grav['page']);
 
+        $this->admin->pagesCount();
+
         // Replace page service with admin.
         $this->grav['page'] = function () use ($self) {
             $page = new Page;
@@ -350,6 +356,8 @@ class AdminPlugin extends Plugin
                     return $page;
                 }
             }
+
+            return null;
         };
 
         if (empty($this->grav['page'])) {
@@ -364,6 +372,9 @@ class AdminPlugin extends Plugin
         }
     }
 
+    /**
+     * Handles initializing the assets
+     */
     public function onAssetsInitialized()
     {
         // Disable Asset pipelining
@@ -400,16 +411,12 @@ class AdminPlugin extends Plugin
     {
         $twig = $this->grav['twig'];
 
-        // Dynamic type support
-        $format = $this->uri->extension();
-        $ext = '.' . ($format ? $format : 'html') . TWIG_EXT;
-
         $twig->twig_vars['location'] = $this->template;
         $twig->twig_vars['base_url_relative_frontend'] = $twig->twig_vars['base_url_relative'] ?: '/';
         $twig->twig_vars['admin_route'] = trim($this->config->get('plugins.admin.route'), '/');
         $twig->twig_vars['base_url_relative'] =
             $twig->twig_vars['base_url_simple'] . '/' . $twig->twig_vars['admin_route'];
-        $twig->twig_vars['theme_url'] = '/user/plugins/admin/themes/' . $this->theme;
+        $twig->twig_vars['theme_url'] = $this->grav['locator']->findResource('plugin://admin/themes/' . $this->theme, false);
         $twig->twig_vars['base_url'] = $twig->twig_vars['base_url_relative'];
         $twig->twig_vars['base_path'] = GRAV_ROOT;
         $twig->twig_vars['admin'] = $this->admin;
@@ -417,15 +424,27 @@ class AdminPlugin extends Plugin
         // Gather Plugin-hooked nav items
         $this->grav->fireEvent('onAdminMenu');
 
-        // DEPRECATED
-        $this->grav->fireEvent('onAdminTemplateNavPluginHook');
-
         switch ($this->template) {
             case 'dashboard':
                 $twig->twig_vars['popularity'] = $this->popularity;
+
+                // Gather Plugin-hooked dashboard items
+                $this->grav->fireEvent('onAdminDashboard');
+
                 break;
             case 'pages':
-                $page = $this->admin->page(true);
+                $path = $this->route;
+
+                if (!$path) {
+                    $path = '/';
+                }
+
+                if (!isset($this->pages[$path])) {
+                    $page = null;
+                } else {
+                    $page = $this->pages[$path];
+                }
+
                 if ($page != null) {
                     $twig->twig_vars['file'] = File::instance($page->filePath());
                     $twig->twig_vars['media_types'] = str_replace('defaults,', '',
@@ -436,6 +455,9 @@ class AdminPlugin extends Plugin
         }
     }
 
+    /**
+     * Handles the shutdown
+     */
     public function onShutdown()
     {
         // Just so we know that we're in this debug mode
@@ -518,15 +540,6 @@ class AdminPlugin extends Plugin
             throw new \RuntimeException('One of the required plugins is missing or not enabled');
         }
 
-        // Double check we have system.yaml and site.yaml
-        $config_files[] = $this->grav['locator']->findResource('user://config') . '/system.yaml';
-        $config_files[] = $this->grav['locator']->findResource('user://config') . '/site.yaml';
-        foreach ($config_files as $config_file) {
-            if (!file_exists($config_file)) {
-                touch($config_file);
-            }
-        }
-
         // Initialize Admin Language if needed
         /** @var Language $language */
         $language = $this->grav['language'];
@@ -550,8 +563,18 @@ class AdminPlugin extends Plugin
 
         $this->admin = new Admin($this->grav, $this->base, $this->template, $this->route);
 
+
         // And store the class into DI container.
         $this->grav['admin'] = $this->admin;
+
+        // Double check we have system.yam, site.yaml etc
+        $config_path = $this->grav['locator']->findResource('user://config');
+        foreach ($this->admin->configurations() as $config_file) {
+            $config_file = "{$config_path}/{$config_file}.yaml";
+            if (!file_exists($config_file)) {
+                touch($config_file);
+            }
+        }
 
         // Get theme for admin
         $this->theme = $this->config->get('plugins.admin.theme', 'grav');
@@ -597,7 +620,7 @@ class AdminPlugin extends Plugin
     }
 
     /**
-     * Add Twig Extensions
+     * Add the Admin Twig Extensions
      */
     public function onTwigExtensions()
     {
@@ -605,6 +628,11 @@ class AdminPlugin extends Plugin
         $this->grav['twig']->twig->addExtension(new AdminTwigExtension());
     }
 
+    /**
+     * Check if the current route is under the admin path
+     *
+     * @return bool
+     */
     public function isAdminPath()
     {
         if ($this->uri->route() == $this->base ||
@@ -612,6 +640,13 @@ class AdminPlugin extends Plugin
             return true;
         }
         return false;
+    }
+
+    public function onAdminDashboard()
+    {
+        $this->grav['twig']->plugins_hooked_dashboard_widgets_top[] = ['template' => 'dashboard-maintenance'];
+        $this->grav['twig']->plugins_hooked_dashboard_widgets_top[] = ['template' => 'dashboard-statistics'];
+        $this->grav['twig']->plugins_hooked_dashboard_widgets_main[] = ['template' => 'dashboard-pages'];
     }
 
 }

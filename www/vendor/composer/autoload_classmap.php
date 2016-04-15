@@ -624,6 +624,7 @@ return array(
     'Twig_Node_Expression_GetAttr' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/GetAttr.php',
     'Twig_Node_Expression_MethodCall' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/MethodCall.php',
     'Twig_Node_Expression_Name' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/Name.php',
+    'Twig_Node_Expression_NullCoalesce' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/NullCoalesce.php',
     'Twig_Node_Expression_Parent' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/Parent.php',
     'Twig_Node_Expression_TempName' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/TempName.php',
     'Twig_Node_Expression_Test' => $vendorDir . '/twig/twig/lib/Twig/Node/Expression/Test.php',

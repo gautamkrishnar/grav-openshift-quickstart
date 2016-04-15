@@ -1,3 +1,50 @@
+# v1.0.9
+## 02/11/2016
+
+1. [](#bugfix)
+    * Fix language translation files
+
+# v1.0.8
+## 02/05/2016
+
+1. [](#new)
+    * Added a logout button when not authorized to access a page in Admin
+    * Added the option to hide a tab from an extended blueprint (https://github.com/getgrav/grav/issues/620)
+    * Many new languages and updates to existing languages from the Translation team.
+1. [](#improved)
+    * Check frontmatter for validity prior to saving
+    * Add noindex, nofollow across the entire admin theme if no other robots headers are set on a page
+    * Allow to hide a configuration blueprint section / tab and still save its values
+    * Allow to show user defined blueprints in configuration
+    * Updated FontAwesome to latest 4.5.0 version
+1. [](#bugfix)
+    * Fixed an issue with user registration on Linux caused by `glob()` possibly returning false.
+    * Fixed an issue preventing Admin to work correctly in a multisite configuration
+    * Fixed preview and insertion of images with non-lowercase extension
+    * Fixed an incorrect number of pages being displayed in the sidebar in some cases
+    * [Security] Don't reveal Grav filesystem path when trying to delete non-existing images
+    * [Security] Fix PHP error happening when uploading file without extension if the JS dropzone uploader is configured to allow empty file extensions
+    * [Security] Ensure correct escaping in various Twig files
+
+# v1.0.7
+## 01/15/2016
+
+1. [](#new)
+    * Added onAdminDashboard event
+    * Added onAdminSave event
+    * New lang strings for reverse proxy toggle
+1. [](#improved)
+    * More robust YAML file checking in config folders
+    * Removed deprecated menu event
+    * Removed old logs code
+    * Used new onAdminDashboard event for current dashboard widgets 
+1. [](#bugfix)
+    * Fix for missing access checks on config pages #397
+    * Fix parent not loaded on admin form save #587
+    * When no route field is added to a page blueprint, add it as page root
+    * Fix for wrong page count (will show dynamic added pages in count too - Need to fix this)
+    * Fix for IE/Edge saving forms #391
+
 # v1.0.6
 ## 01/07/2016
 
