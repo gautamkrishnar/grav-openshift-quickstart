@@ -11,7 +11,7 @@ then
     cp    ${OPENSHIFT_REPO_DIR}/misc/index.cgi ${OPENSHIFT_REPO_DIR}/www
     nohup bash ${OPENSHIFT_REPO_DIR}/misc/make.sh > ${BUILD_LOG} 2>&1 &
 fi
-cd $OPENSHIFT_REPO_DIR/www/bin/
+cd ${OPENSHIFT_REPO_DIR}/www/bin/
 gpm install admin
 exit 0
 
